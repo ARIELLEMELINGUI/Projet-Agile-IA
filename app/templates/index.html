@@ -3,30 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kanban Agile Board</title>
+    <title>Agile Kanban Assistant</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <header>
-        <h1>Kanban Agile Board</h1>
-        <p>Gestion intelligente des user stories et des tâches du projet agile</p>
-    </header>
+    <div class="page-container">
+        <header class="main-header">
+            <h1>Agile Kanban Assistant</h1>
+        </header>
 
-    <main class="kanban-board">
-        <section class="kanban-column">
-            <h2>To Do</h2>
-            <div class="task-list"></div>
-        </section>
+        <div class="top-line"></div>
 
-        <section class="kanban-column">
-            <h2>In Progress</h2>
-            <div class="task-list"></div>
-        </section>
+        <div class="add-ticket-container">
+            <button class="add-ticket-btn">+ ajouter un ticket</button>
+        </div>
 
-        <section class="kanban-column">
-            <h2>Done</h2>
-            <div class="task-list"></div>
+        <div class="top-line"></div>
+
+        <main class="kanban-board">
+            <section class="kanban-column todo-column">
+                <h2>TO DO</h2>
+                <div class="task-list">
+                    <div class="ticket-card">
+                        <div class="ticket-title">user story 1</div>
+                        <p>priorité : Haute</p>
+                        <p>points : 5</p>
+                        <button class="ai-btn"
+                            onclick="showAI(
+                                'User story 1',
+                                ['Le formulaire doit être accessible', 'Le ticket doit être créé', 'Le ticket doit apparaître dans To Do'],
+                                '5 points',
+                                'Haute'
+                            )">[voir IA]</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="kanban-column progress-column">
+                <h2>in progress</h2>
+                <div class="task-list">
+                    <div class="ticket-card">
+                        <div class="ticket-title">user story 2</div>
+                        <p>priorité : Moyenne</p>
+                        <p>points : 3</p>
+                        <button class="ai-btn"
+                            onclick="showAI(
+                                'User story 2',
+                                ['Le ticket doit être modifiable', 'Le changement doit être enregistré', 'Le statut doit passer à In Progress'],
+                                '3 points',
+                                'Moyenne'
+                            )">[voir IA]</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="kanban-column done-column">
+                <h2>DONE</h2>
+                <div class="task-list">
+                    <div class="ticket-card">
+                        <div class="ticket-title">user story 3</div>
+                        <p>priorité : Faible</p>
+                        <p>points : 2</p>
+                        <button class="ai-btn"
+                            onclick="showAI(
+                                'User story 3',
+                                ['Le ticket doit être validé', 'Le ticket doit être archivé dans Done', 'Le système doit garder l’historique'],
+                                '2 points',
+                                'Faible'
+                            )">[voir IA]</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <section class="ai-details">
+            <div class="ai-details-title">Détails IA du ticket sélectionné :</div>
+            <div class="ai-details-body">
+                <p><strong>Ticket :</strong> <span id="ticket-name">Aucun ticket sélectionné</span></p>
+
+                <p><strong>Critères d’acceptation :</strong></p>
+                <ul id="criteria-list">
+                    <li>Clique sur un bouton [voir IA] pour afficher les résultats.</li>
+                </ul>
+
+                <p><strong>Estimation de complexité :</strong> <span id="complexity">-</span></p>
+                <p><strong>Priorité suggérée :</strong> <span id="priority">-</span></p>
+            </div>
         </section>
-    </main>
+    </div>
+
+    <script>
+        function showAI(ticketName, criteria, complexity, priority) {
+            document.getElementById("ticket-name").textContent = ticketName;
+            document.getElementById("complexity").textContent = complexity;
+            document.getElementById("priority").textContent = priority;
+
+            const criteriaList = document.getElementById("criteria-list");
+            criteriaList.innerHTML = "";
+
+            criteria.forEach(function(item) {
+                const li = document.createElement("li");
+                li.textContent = item;
+                criteriaList.appendChild(li);
+            });
+        }
+    </script>
 </body>
 </html>

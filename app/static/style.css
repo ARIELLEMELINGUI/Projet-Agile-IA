@@ -5,90 +5,261 @@
 }
 
 body {
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #eef2ff, #f8fafc);
-    color: #1f2937;
-    min-height: 100vh;
-    padding: 30px 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    color: #222;
+    padding: 30px;
 }
 
-header {
+.page-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.main-header,
+.add-ticket-btn,
+.kanban-column,
+.ticket-card,
+.ai-details {
+    transition: all 0.25s ease;
+}
+
+.main-header {
+    width: 420px;
+    margin: 0 auto 10px auto;
+    background: linear-gradient(to bottom, #63b4ea, #318fcd);
+    border: 1px solid #3d7fa8;
     text-align: center;
-    margin-bottom: 40px;
+    padding: 10px 20px;
+    border-radius: 6px;
+    box-shadow:
+        inset 0 2px 4px rgba(255,255,255,0.35),
+        inset 0 -3px 6px rgba(0,0,0,0.12),
+        0 10px 18px rgba(0,0,0,0.18);
 }
 
-header h1 {
-    font-size: 2.8rem;
-    font-weight: 700;
-    color: #1e3a8a;
-    margin-bottom: 10px;
-    letter-spacing: 0.5px;
+.main-header h1 {
+    color: white;
+    font-size: 2rem;
+    font-weight: normal;
 }
 
-header p {
-    font-size: 1.05rem;
-    color: #475569;
+.main-header:hover {
+    transform: translateY(-3px);
+    box-shadow:
+        inset 0 2px 4px rgba(255,255,255,0.35),
+        inset 0 -3px 6px rgba(0,0,0,0.12),
+        0 16px 26px rgba(0,0,0,0.24);
+}
+
+.top-line {
+    height: 2px;
+    background-color: #6e6e6e;
+    margin: 20px 0;
+}
+
+.add-ticket-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.add-ticket-btn {
+    background: linear-gradient(to bottom, #86c63f, #6fa42f);
+    color: white;
+    border: 1px solid #5e8b28;
+    padding: 12px 40px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    border-radius: 6px;
+    box-shadow:
+        inset 0 2px 3px rgba(255,255,255,0.25),
+        inset 0 -3px 5px rgba(0,0,0,0.15),
+        0 6px 0 #4f6f1d,
+        0 12px 20px rgba(0,0,0,0.18);
+}
+
+.add-ticket-btn:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow:
+        inset 0 2px 3px rgba(255,255,255,0.25),
+        inset 0 -3px 5px rgba(0,0,0,0.15),
+        0 8px 0 #4f6f1d,
+        0 16px 24px rgba(0,0,0,0.22);
+}
+
+.add-ticket-btn:active {
+    transform: translateY(4px);
+    box-shadow:
+        inset 0 2px 3px rgba(255,255,255,0.25),
+        inset 0 -3px 5px rgba(0,0,0,0.15),
+        0 2px 0 #4f6f1d,
+        0 6px 10px rgba(0,0,0,0.15);
 }
 
 .kanban-board {
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 25px;
-    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 25px;
 }
 
 .kanban-column {
-    width: 320px;
-    min-height: 460px;
-    background: #ffffff;
-    border-radius: 18px;
-    padding: 20px;
-    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
-    border: 1px solid #e5e7eb;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    flex: 1;
+    min-height: 240px;
+    border: 1px solid #8b8b8b;
+    border-radius: 6px;
+    box-shadow:
+        inset 0 2px 4px rgba(255,255,255,0.18),
+        inset 0 -4px 8px rgba(0,0,0,0.08),
+        0 12px 24px rgba(0,0,0,0.18);
+    transform: perspective(1000px) rotateX(0deg);
 }
 
 .kanban-column:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 14px 30px rgba(15, 23, 42, 0.12);
+    transform: perspective(1000px) rotateX(4deg) translateY(-8px) scale(1.01);
+    box-shadow:
+        inset 0 2px 4px rgba(255,255,255,0.18),
+        inset 0 -4px 8px rgba(0,0,0,0.08),
+        0 20px 34px rgba(0,0,0,0.24);
+}
+
+.todo-column {
+    background: linear-gradient(to bottom, #5aaee4, #3993d1);
+}
+
+.progress-column {
+    background: linear-gradient(to bottom, #ebb34d, #d7951f);
+}
+
+.done-column {
+    background: linear-gradient(to bottom, #87bc3d, #6ea22c);
 }
 
 .kanban-column h2 {
     text-align: center;
-    font-size: 1.3rem;
-    margin-bottom: 18px;
-    padding: 12px;
-    border-radius: 12px;
     color: white;
-    font-weight: 600;
+    font-size: 1.2rem;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
 }
 
-.kanban-column:nth-child(1) h2 {
-    background: linear-gradient(135deg, #3b82f6, #2563eb);
-}
-
-.kanban-column:nth-child(2) h2 {
-    background: linear-gradient(135deg, #f59e0b, #d97706);
-}
-
-.kanban-column:nth-child(3) h2 {
-    background: linear-gradient(135deg, #10b981, #059669);
+.progress-column h2 {
+    color: black;
+    font-weight: bold;
 }
 
 .task-list {
-    min-height: 340px;
-    border: 2px dashed #cbd5e1;
-    border-radius: 14px;
-    background: #f8fafc;
-    padding: 15px;
+    padding: 18px;
 }
 
-.task-list::before {
-    content: "Aucune tâche pour le moment";
-    display: block;
+.ticket-card {
+    background: linear-gradient(to bottom, #f2dede, #e7cfcf);
+    border: 1px solid #9a8e8e;
+    min-height: 145px;
+    padding: 0;
+    border-radius: 4px;
+    box-shadow:
+        inset 0 1px 2px rgba(255,255,255,0.45),
+        inset 0 -2px 4px rgba(0,0,0,0.06),
+        0 8px 16px rgba(0,0,0,0.14);
+}
+
+.ticket-card:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow:
+        inset 0 1px 2px rgba(255,255,255,0.45),
+        inset 0 -2px 4px rgba(0,0,0,0.06),
+        0 16px 28px rgba(0,0,0,0.2);
+}
+
+.ticket-title {
+    background-color: #efefef;
     text-align: center;
-    color: #94a3b8;
+    font-size: 1.1rem;
+    padding: 8px 0;
+    margin-bottom: 12px;
+}
+
+.ticket-card p {
+    margin-left: 12px;
+    margin-bottom: 12px;
     font-size: 0.95rem;
-    margin-top: 130px;
+}
+
+.ai-btn {
+    display: block;
+    margin-left: auto;
+    margin-right: 12px;
+    margin-top: 25px;
+    background: linear-gradient(to bottom, #a12436, #7b1625);
+    color: white;
+    border: 1px solid #5c0f18;
+    padding: 6px 14px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    border-radius: 4px;
+    box-shadow:
+        inset 0 1px 2px rgba(255,255,255,0.18),
+        0 4px 0 #4e0e18,
+        0 8px 12px rgba(0,0,0,0.16);
+}
+
+.ai-btn:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow:
+        inset 0 1px 2px rgba(255,255,255,0.18),
+        0 6px 0 #4e0e18,
+        0 12px 18px rgba(0,0,0,0.2);
+    background: linear-gradient(to bottom, #b2283c, #8d1a2b);
+}
+
+.ai-btn:active {
+    transform: translateY(3px);
+    box-shadow:
+        inset 0 1px 2px rgba(255,255,255,0.18),
+        0 2px 0 #4e0e18,
+        0 5px 8px rgba(0,0,0,0.15);
+}
+
+.ai-details {
+    border: 1px solid #8b8b8b;
+    border-radius: 4px;
+    box-shadow:
+        inset 0 1px 2px rgba(255,255,255,0.2),
+        0 8px 18px rgba(0,0,0,0.12);
+}
+
+.ai-details:hover {
+    transform: translateY(-3px);
+    box-shadow:
+        inset 0 1px 2px rgba(255,255,255,0.2),
+        0 14px 24px rgba(0,0,0,0.18);
+}
+
+.ai-details-title {
+    background-color: #e7e7e7;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 1.1rem;
+}
+
+.ai-details-body {
+    background-color: #d9d6e8;
+    min-height: 120px;
+    padding: 16px 24px;
+}
+
+.ai-details-body p {
+    margin-bottom: 18px;
+    font-size: 1rem;
+}
+#criteria-list {
+    margin-top: 8px;
+    margin-left: 20px;
+}
+
+#criteria-list li {
+    margin-bottom: 8px;
+    font-size: 1rem;
 }
