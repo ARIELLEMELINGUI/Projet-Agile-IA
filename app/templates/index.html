@@ -15,7 +15,31 @@
         <div class="top-line"></div>
 
         <div class="add-ticket-container">
-            <button class="add-ticket-btn">+ ajouter un ticket</button>
+            <button class="add-ticket-btn" onclick="toggleForm()">+ ajouter un ticket</button>
+        </div>
+
+        <div id="ticket-form-container" class="ticket-form-container hidden">
+            <div class="ticket-form">
+                <h3>Nouveau ticket</h3>
+
+                <label for="ticket-title">Titre</label>
+                <input type="text" id="ticket-title" placeholder="Ex: Créer un ticket">
+
+                <label for="ticket-priority">Priorité</label>
+                <select id="ticket-priority">
+                    <option value="Haute">Haute</option>
+                    <option value="Moyenne">Moyenne</option>
+                    <option value="Faible">Faible</option>
+                </select>
+
+                <label for="ticket-points">Points</label>
+                <input type="number" id="ticket-points" placeholder="Ex: 5">
+
+                <div class="form-buttons">
+                    <button class="save-btn" onclick="addTicket()">Ajouter</button>
+                    <button class="cancel-btn" onclick="toggleForm()">Annuler</button>
+                </div>
+            </div>
         </div>
 
         <div class="top-line"></div>
@@ -23,7 +47,7 @@
         <main class="kanban-board">
             <section class="kanban-column todo-column">
                 <h2>TO DO</h2>
-                <div class="task-list">
+                <div class="task-list" id="todo-list">
                     <div class="ticket-card">
                         <div class="ticket-title">user story 1</div>
                         <p><strong>Priorité :</strong> <span class="badge high">Haute</span></p>
@@ -106,6 +130,51 @@
                 li.textContent = item;
                 criteriaList.appendChild(li);
             });
+        }
+
+        function toggleForm() {
+            const formContainer = document.getElementById("ticket-form-container");
+            formContainer.classList.toggle("hidden");
+        }
+
+        function addTicket() {
+            const title = document.getElementById("ticket-title").value.trim();
+            const priority = document.getElementById("ticket-priority").value;
+            const points = document.getElementById("ticket-points").value.trim();
+
+            if (title === "" || points === "") {
+                alert("Veuillez remplir le titre et les points.");
+                return;
+            }
+
+            let badgeClass = "low";
+            if (priority === "Haute") badgeClass = "high";
+            if (priority === "Moyenne") badgeClass = "medium";
+
+            const todoList = document.getElementById("todo-list");
+
+            const card = document.createElement("div");
+            card.className = "ticket-card";
+
+            card.innerHTML = `
+                <div class="ticket-title">${title}</div>
+                <p><strong>Priorité :</strong> <span class="badge ${badgeClass}">${priority}</span></p>
+                <p><strong>Points :</strong> ${points}</p>
+                <button class="ai-btn" onclick="showAI(
+                    '${title}',
+                    ['Critère 1 généré', 'Critère 2 généré', 'Critère 3 généré'],
+                    '${points} points',
+                    '${priority}'
+                )">[voir IA]</button>
+            `;
+
+            todoList.appendChild(card);
+
+            document.getElementById("ticket-title").value = "";
+            document.getElementById("ticket-points").value = "";
+            document.getElementById("ticket-priority").value = "Haute";
+
+            toggleForm();
         }
     </script>
 </body>
