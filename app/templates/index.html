@@ -3,30 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kanban Agile Board</title>
+    <title>Agile Kanban Assistant</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <header>
-        <h1>Kanban Agile Board</h1>
-        <p>Gestion intelligente des user stories et des tâches du projet agile</p>
-    </header>
+    <div class="page-container">
+        <header class="main-header">
+            <h1>Agile Kanban Assistant</h1>
+        </header>
 
-    <main class="kanban-board">
-        <section class="kanban-column">
-            <h2>To Do</h2>
-            <div class="task-list"></div>
-        </section>
+        <div class="top-line"></div>
 
-        <section class="kanban-column">
-            <h2>In Progress</h2>
-            <div class="task-list"></div>
-        </section>
+        <div class="add-ticket-container">
+            <button class="add-ticket-btn" onclick="toggleForm()">+ ajouter un ticket</button>
+        </div>
 
-        <section class="kanban-column">
-            <h2>Done</h2>
-            <div class="task-list"></div>
+        <div id="ticket-form-container" class="ticket-form-container hidden">
+            <div class="ticket-form">
+                <h3>Nouveau ticket</h3>
+
+                <label for="ticket-title">Titre</label>
+                <input type="text" id="ticket-title" placeholder="Ex: Créer un ticket">
+
+                <label for="ticket-description">Description</label>
+                <textarea id="ticket-description" placeholder="Ex: Permettre au Product Owner d’ajouter une nouvelle user story."></textarea>
+
+                <label for="ticket-priority">Priorité</label>
+                <select id="ticket-priority">
+                    <option value="Haute">Haute</option>
+                    <option value="Moyenne">Moyenne</option>
+                    <option value="Faible">Faible</option>
+                </select>
+
+                <label for="ticket-points">Points</label>
+                <input type="number" id="ticket-points" placeholder="Ex: 5">
+
+                <div class="form-buttons">
+                    <button class="save-btn" onclick="addTicket()">Ajouter</button>
+                    <button class="cancel-btn" onclick="toggleForm()">Annuler</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="top-line"></div>
+
+        <main class="kanban-board">
+            <section class="kanban-column todo-column">
+                <h2>TO DO</h2>
+                <div class="task-list" id="todo-list">
+                    <div class="ticket-card">
+                        <div class="ticket-title">user story 1</div>
+                        <p class="ticket-description">Permettre au Product Owner d’ajouter une user story avec un titre et une description.</p>
+                        <p><strong>Priorité :</strong> <span class="badge high">Haute</span></p>
+                        <p><strong>Points :</strong> 5</p>
+                        <button class="ai-btn"
+                            onclick="showAI(
+                                'User story 1',
+                                ['Le formulaire doit être accessible', 'Le ticket doit être créé', 'Le ticket doit apparaître dans To Do'],
+                                '5 points',
+                                'Haute'
+                            )">[voir IA]</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="kanban-column progress-column">
+                <h2>in progress</h2>
+                <div class="task-list">
+                    <div class="ticket-card">
+                        <div class="ticket-title">user story 2</div>
+                        <p class="ticket-description">Permettre de modifier un ticket et d’enregistrer les changements.</p>
+                        <p><strong>Priorité :</strong> <span class="badge medium">Moyenne</span></p>
+                        <p><strong>Points :</strong> 3</p>
+                        <button class="ai-btn"
+                            onclick="showAI(
+                                'User story 2',
+                                ['Le ticket doit être modifiable', 'Le changement doit être enregistré', 'Le statut doit passer à In Progress'],
+                                '3 points',
+                                'Moyenne'
+                            )">[voir IA]</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="kanban-column done-column">
+                <h2>DONE</h2>
+                <div class="task-list">
+                    <div class="ticket-card">
+                        <div class="ticket-title">user story 3</div>
+                        <p class="ticket-description">Valider un ticket terminé et l’archiver dans la colonne Done.</p>
+                        <p><strong>Priorité :</strong> <span class="badge low">Faible</span></p>
+                        <p><strong>Points :</strong> 2</p>
+                        <button class="ai-btn"
+                            onclick="showAI(
+                                'User story 3',
+                                ['Le ticket doit être validé', 'Le ticket doit être archivé dans Done', 'Le système doit garder l’historique'],
+                                '2 points',
+                                'Faible'
+                            )">[voir IA]</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <section class="ai-details">
+            <div class="ai-details-title">Détails IA du ticket sélectionné :</div>
+            <div class="ai-details-body">
+                <p><strong>Ticket :</strong> <span id="ticket-name">Aucun ticket sélectionné</span></p>
+
+                <p><strong>Critères d’acceptation :</strong></p>
+                <ul id="criteria-list">
+                    <li>Clique sur un bouton [voir IA] pour afficher les résultats.</li>
+                </ul>
+
+                <p><strong>Estimation de complexité :</strong> <span id="complexity">-</span></p>
+                <p><strong>Priorité suggérée :</strong> <span id="priority">-</span></p>
+            </div>
         </section>
-    </main>
+    </div>
+
+    <script>
+        function showAI(ticketName, criteria, complexity, priority) {
+            document.getElementById("ticket-name").textContent = ticketName;
+            document.getElementById("complexity").textContent = complexity;
+            document.getElementById("priority").textContent = priority;
+
+            const criteriaList = document.getElementById("criteria-list");
+            criteriaList.innerHTML = "";
+
+            criteria.forEach(function(item) {
+                const li = document.createElement("li");
+                li.textContent = item;
+                criteriaList.appendChild(li);
+            });
+        }
+
+        function toggleForm() {
+            const formContainer = document.getElementById("ticket-form-container");
+            formContainer.classList.toggle("hidden");
+        }
+
+        function addTicket() {
+            const title = document.getElementById("ticket-title").value.trim();
+            const description = document.getElementById("ticket-description").value.trim();
+            const priority = document.getElementById("ticket-priority").value;
+            const points = document.getElementById("ticket-points").value.trim();
+
+            if (title === "" || description === "" || points === "") {
+                alert("Veuillez remplir le titre, la description et les points.");
+                return;
+            }
+
+            let badgeClass = "low";
+            if (priority === "Haute") badgeClass = "high";
+            if (priority === "Moyenne") badgeClass = "medium";
+
+            const todoList = document.getElementById("todo-list");
+
+            const card = document.createElement("div");
+            card.className = "ticket-card";
+
+            card.innerHTML = `
+                <div class="ticket-title">${title}</div>
+                <p class="ticket-description">${description}</p>
+                <p><strong>Priorité :</strong> <span class="badge ${badgeClass}">${priority}</span></p>
+                <p><strong>Points :</strong> ${points}</p>
+                <button class="ai-btn" onclick="showAI(
+                    '${title}',
+                    ['Critère 1 généré', 'Critère 2 généré', 'Critère 3 généré'],
+                    '${points} points',
+                    '${priority}'
+                )">[voir IA]</button>
+            `;
+
+            todoList.appendChild(card);
+
+            document.getElementById("ticket-title").value = "";
+            document.getElementById("ticket-description").value = "";
+            document.getElementById("ticket-points").value = "";
+            document.getElementById("ticket-priority").value = "Haute";
+
+            toggleForm();
+        }
+    </script>
 </body>
 </html>
