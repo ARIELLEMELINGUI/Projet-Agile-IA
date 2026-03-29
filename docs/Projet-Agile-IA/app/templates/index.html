@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanban Agile Board</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Kanban Agile Board</h1>
+        <p>Gestion intelligente des user stories et des tâches du projet agile</p>
+    </header>
+
+    <main class="kanban-board">
+        <section class="kanban-column">
+            <h2>To Do</h2>
+            <div class="task-list"></div>
+        </section>
+
+        <section class="kanban-column">
+            <h2>In Progress</h2>
+            <div class="task-list"></div>
+        </section>
+
+        <section class="kanban-column">
+            <h2>Done</h2>
+            <div class="task-list"></div>
+        </section>
+    </main>
+</body>
+</html>

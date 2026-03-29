@@ -1,0 +1,94 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #eef2ff, #f8fafc);
+    color: #1f2937;
+    min-height: 100vh;
+    padding: 30px 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+header h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #1e3a8a;
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+}
+
+header p {
+    font-size: 1.05rem;
+    color: #475569;
+}
+
+.kanban-board {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+.kanban-column {
+    width: 320px;
+    min-height: 460px;
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 20px;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+    border: 1px solid #e5e7eb;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.kanban-column:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 30px rgba(15, 23, 42, 0.12);
+}
+
+.kanban-column h2 {
+    text-align: center;
+    font-size: 1.3rem;
+    margin-bottom: 18px;
+    padding: 12px;
+    border-radius: 12px;
+    color: white;
+    font-weight: 600;
+}
+
+.kanban-column:nth-child(1) h2 {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+}
+
+.kanban-column:nth-child(2) h2 {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+.kanban-column:nth-child(3) h2 {
+    background: linear-gradient(135deg, #10b981, #059669);
+}
+
+.task-list {
+    min-height: 340px;
+    border: 2px dashed #cbd5e1;
+    border-radius: 14px;
+    background: #f8fafc;
+    padding: 15px;
+}
+
+.task-list::before {
+    content: "Aucune tâche pour le moment";
+    display: block;
+    text-align: center;
+    color: #94a3b8;
+    font-size: 0.95rem;
+    margin-top: 130px;
+}
