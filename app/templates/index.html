@@ -25,6 +25,9 @@
                 <label for="ticket-title">Titre</label>
                 <input type="text" id="ticket-title" placeholder="Ex: Créer un ticket">
 
+                <label for="ticket-description">Description</label>
+                <textarea id="ticket-description" placeholder="Ex: Permettre au Product Owner d’ajouter une nouvelle user story."></textarea>
+
                 <label for="ticket-priority">Priorité</label>
                 <select id="ticket-priority">
                     <option value="Haute">Haute</option>
@@ -50,6 +53,7 @@
                 <div class="task-list" id="todo-list">
                     <div class="ticket-card">
                         <div class="ticket-title">user story 1</div>
+                        <p class="ticket-description">Permettre au Product Owner d’ajouter une user story avec un titre et une description.</p>
                         <p><strong>Priorité :</strong> <span class="badge high">Haute</span></p>
                         <p><strong>Points :</strong> 5</p>
                         <button class="ai-btn"
@@ -68,6 +72,7 @@
                 <div class="task-list">
                     <div class="ticket-card">
                         <div class="ticket-title">user story 2</div>
+                        <p class="ticket-description">Permettre de modifier un ticket et d’enregistrer les changements.</p>
                         <p><strong>Priorité :</strong> <span class="badge medium">Moyenne</span></p>
                         <p><strong>Points :</strong> 3</p>
                         <button class="ai-btn"
@@ -86,6 +91,7 @@
                 <div class="task-list">
                     <div class="ticket-card">
                         <div class="ticket-title">user story 3</div>
+                        <p class="ticket-description">Valider un ticket terminé et l’archiver dans la colonne Done.</p>
                         <p><strong>Priorité :</strong> <span class="badge low">Faible</span></p>
                         <p><strong>Points :</strong> 2</p>
                         <button class="ai-btn"
@@ -139,11 +145,12 @@
 
         function addTicket() {
             const title = document.getElementById("ticket-title").value.trim();
+            const description = document.getElementById("ticket-description").value.trim();
             const priority = document.getElementById("ticket-priority").value;
             const points = document.getElementById("ticket-points").value.trim();
 
-            if (title === "" || points === "") {
-                alert("Veuillez remplir le titre et les points.");
+            if (title === "" || description === "" || points === "") {
+                alert("Veuillez remplir le titre, la description et les points.");
                 return;
             }
 
@@ -158,6 +165,7 @@
 
             card.innerHTML = `
                 <div class="ticket-title">${title}</div>
+                <p class="ticket-description">${description}</p>
                 <p><strong>Priorité :</strong> <span class="badge ${badgeClass}">${priority}</span></p>
                 <p><strong>Points :</strong> ${points}</p>
                 <button class="ai-btn" onclick="showAI(
@@ -171,6 +179,7 @@
             todoList.appendChild(card);
 
             document.getElementById("ticket-title").value = "";
+            document.getElementById("ticket-description").value = "";
             document.getElementById("ticket-points").value = "";
             document.getElementById("ticket-priority").value = "Haute";
 

@@ -353,3 +353,19 @@ body {
     margin-bottom: 8px;
     font-size: 1rem;
 }
+.ticket-description {
+    margin: 0 12px 12px 12px;
+    font-size: 0.92rem;
+    color: #444;
+    line-height: 1.4;
+}
+
+.ticket-form textarea {
+    width: 100%;
+    min-height: 90px;
+    padding: 10px;
+    border: 1px solid #bdbdbd;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    resize: vertical;
+}
