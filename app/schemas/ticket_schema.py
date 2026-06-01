@@ -1,9 +1,6 @@
 from app import ma
-from app.models.ticket import Ticket, TicketStatus, TicketPriority
+from app.models.ticket import Ticket, TicketStatus, TicketPriority, FIBONACCI
 from marshmallow import fields, validate, validates, ValidationError
-
-
-VALID_STORY_POINTS = [1, 2, 3, 5, 8, 13]
 
 
 class TicketSchema(ma.SQLAlchemyAutoSchema):
@@ -14,40 +11,53 @@ class TicketSchema(ma.SQLAlchemyAutoSchema):
 
     title = fields.Str(
         required=True,
-        validate=validate.Length(min=2, max=200, error="title requis (2-200 caractères)")
+        validate=validate.Length(min=2, max=200,
+                                 error="title requis (2-200 caractères)")
     )
-    owner_id = fields.Int(required=True)
-    sprint_id = fields.Int(load_default=None)
+    # Champ correct : created_by (pas owner_id)
+    created_by = fields.Int(required=True)
+    project_id = fields.Int(required=True)
+    sprint_id  = fields.Int(load_default=None, allow_none=True)
+    assigned_to = fields.Int(load_default=None, allow_none=True)
 
     status = fields.Str(
+        load_default=TicketStatus.TODO.value,
         validate=validate.OneOf(
-            [s.value for s in TicketStatus],
-            error=f"status doit être parmi : {[s.value for s in TicketStatus]}"
-        ),
-        load_default=TicketStatus.TODO.value
+            TicketStatus.ALL,
+            error=f"status doit être parmi : {TicketStatus.ALL}"
+        )
     )
     priority = fields.Str(
+        load_default=TicketPriority.MEDIUM.value,
         validate=validate.OneOf(
-            [p.value for p in TicketPriority],
-            error=f"priority doit être parmi : {[p.value for p in TicketPriority]}"
-        ),
-        load_default=TicketPriority.MEDIUM.value
+            TicketPriority.ALL,
+            error=f"priority doit être parmi : {TicketPriority.ALL}"
+        )
     )
     ai_priority_hint = fields.Str(
+        load_default=None,
+        allow_none=True,
         validate=validate.OneOf(
             ["urgent", "blocking", "normal"],
-            error="ai_priority_hint doit être : urgent | blocking | normal"
-        ),
-        load_default=None
+            error="ai_priority_hint : urgent | blocking | normal"
+        )
     )
 
     created_at = fields.DateTime(dump_only=True)
     updated_at = fields.DateTime(dump_only=True)
 
+    # Nom de l'assigné en lecture seule (pratique pour l'affichage)
+    assignee_username = fields.Method("get_assignee_username", dump_only=True)
+
+    def get_assignee_username(self, obj):
+        return obj.assignee.username if obj.assignee else None
+
     @validates("story_points")
     def validate_story_points(self, value):
-        if value is not None and value not in VALID_STORY_POINTS:
-            raise ValidationError(f"story_points doit être dans la suite Fibonacci : {VALID_STORY_POINTS}")
+        if value is not None and value not in FIBONACCI:
+            raise ValidationError(
+                f"story_points doit être dans la suite Fibonacci : {FIBONACCI}"
+            )
 
 
 ticket_schema  = TicketSchema()

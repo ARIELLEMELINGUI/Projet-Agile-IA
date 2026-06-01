@@ -7,14 +7,18 @@ class TicketStatus(str, enum.Enum):
     TODO        = "To Do"
     IN_PROGRESS = "In Progress"
     DONE        = "Done"
+    ALL = [TODO, IN_PROGRESS, DONE]
 
 
 class TicketPriority(str, enum.Enum):
+
     LOW      = "low"
     MEDIUM   = "medium"
     HIGH     = "high"
     BLOCKING = "blocking"
+    ALL = [LOW, MEDIUM, HIGH, BLOCKING]
 
+FIBONACCI = [1, 2, 3, 5, 8, 13]
 
 class Ticket(db.Model):
     __tablename__ = "tickets"
@@ -31,8 +35,18 @@ class Ticket(db.Model):
     updated_at          = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     # Foreign keys
-    owner_id  = db.Column(db.Integer, db.ForeignKey("users.id"),   nullable=False)
+    created_by  = db.Column(db.Integer, db.ForeignKey("users.id"),   nullable=False)
     sprint_id = db.Column(db.Integer, db.ForeignKey("sprints.id"), nullable=True)
+    project_id = db.Column(db.Integer, db.ForeignKey("projects.id"), nullable=False)
+    assigned_to = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=True)
+
+    # Relations
+    project  = db.relationship("Project", back_populates="tickets")
+    sprint   = db.relationship("Sprint",  back_populates="tickets")
+    creator  = db.relationship("User", foreign_keys=[created_by],
+                                back_populates="created_tickets")
+    assignee = db.relationship("User", foreign_keys=[assigned_to],
+                                back_populates="assigned_tickets")
 
     def __repr__(self):
-        return f"<Ticket {self.id} – {self.title}>"
+        return f"<Ticket #{self.id} '{self.title}' [{self.status}]>"

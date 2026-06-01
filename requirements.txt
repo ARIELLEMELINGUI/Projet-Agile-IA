@@ -1,0 +1,11 @@
+flask
+flask-sqlalchemy
+flask-restful
+flask-marshmallow
+marshmallow-sqlalchemy
+sqlalchemy
+marshmallow
+OPENAI
+Dotenv
+
+werkzeug

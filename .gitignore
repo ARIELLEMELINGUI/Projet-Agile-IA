@@ -1,0 +1,24 @@
+
+venv/
+ENV/
+env/
+
+
+.idea/
+*.iml
+
+
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.env
+
+*.log
+*.tmp
+*.db
+
+.DS_Store         # macOS
+Thumbs.db         # Windows
+
+API_TEST.md
